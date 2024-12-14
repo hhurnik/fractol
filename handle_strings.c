@@ -46,6 +46,7 @@ double double_atoi(char *s)
 	fractional_part = 0;
 	sign = 1;
 
+    not_digits(s);
     while ((*s >= 9 && *s <= 13) || *s == 32)
         s++;
 
@@ -63,8 +64,20 @@ double double_atoi(char *s)
         s++;
         fractional_part = parse_fractional(s);
     }
-
     return (integer_part + fractional_part) * sign;
+}
+
+void not_digits(char *s)
+{
+    while(*s)
+    {
+        if (!(*s >= '0' && *s <= '9'))
+        {
+            ft_putstr_fd("Enter ./fractol mandelbrot or ./fractol julia <real_part>  <imaginary_part>\n", 2);
+            exit(EXIT_FAILURE);
+        }
+        s++;
+    }
 }
 
 long parse_integer(char **s_ptr)

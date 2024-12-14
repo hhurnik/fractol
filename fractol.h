@@ -6,8 +6,7 @@
 # include <X11/keysym.h>
 # include <math.h>
 # include <stdlib.h> // malloc free exit
-#include <stdio.h> //printf - usunac
-#include <unistd.h>
+#include <unistd.h> //write
 
 # define WIDTH 800
 # define HEIGHT 800
@@ -37,6 +36,9 @@
 # define AURORA_GREEN 0x00FA9A  // Neon aurora green
 # define BLAZE_RED 0xFF0033    // Explosive vivid red
 
+
+//bpp is 32, then each pixel is represented by 4 bytes 
+//(8 bits per channel: Red, Green, Blue, and Alpha
 // Structure used as a pixel buffer
 typedef struct s_img
 {
@@ -47,13 +49,10 @@ typedef struct s_img
 	int		line_len;
 }	t_img;
 
-/**
- * Structure containing all the necessary data to draw a fractal
- * in my application
- * ~ MLX wiring
- * ~ Image structure
- * ~ Hooks values
- */
+// Structure containing all the necessary data to draw a fractal
+// -MLX wiring
+// -Image structure
+// -Hooks values
 typedef struct s_fractal
 {
 	char	*name;
@@ -69,12 +68,7 @@ typedef struct s_fractal
 	double	julia_imaginary;
 }	t_fractal;
 
-/**
- * Structure containing complex numbers with:
- * r - standing for real component
- * i - standing for imaginary component
- *
- */
+// Structure containing complex numbers
 typedef struct s_complex
 {
 	double	real;
@@ -94,6 +88,7 @@ int	ft_strncmp(char *s1, char *s2, int n);
 long parse_integer(char **s_ptr);
 double parse_fractional(char *s);
 double double_atoi(char *s);
+void not_digits(char *s);
 
 // init
 void	data_init(t_fractal *fractal);
@@ -104,6 +99,7 @@ void	ft_malloc_error(void); //czy moge wyrzucic?
 //math
 t_complex	sum_complex(t_complex x, t_complex y);
 t_complex	square_complex(t_complex z);
+double	rescale(double nb, double new_min, double new_max, double old_max);
 
 //rendering
 void	fractal_render(t_fractal *fractal);
@@ -111,8 +107,6 @@ void	ft_handle_pixel(int x, int y, t_fractal *fractal);
 void	ft_pixel_put(int x, int y, t_img *img, int color);
 void	ft_mandelbrot_julia(t_complex *z, t_complex *c, t_fractal *fractal);
 
-//scalling
-double	ft_scale(double nb, double new_min, double new_max, double old_max);
 
 
 #endif

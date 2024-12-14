@@ -18,12 +18,16 @@ void	fractal_render(t_fractal *fractal)
 	int	x;
 	int	y;
 
-	y = -1;
-	while (++y < HEIGHT)
+	y = 0;
+	while (y < HEIGHT)
 	{
-		x = -1;
-		while (++x < WIDTH)
+		x = 0;
+		while (x < WIDTH)
+		{
 			ft_handle_pixel(x, y, fractal);
+			x++;
+		}
+		y++;
 	}
 	mlx_put_image_to_window(fractal->mlx_connection, fractal->mlx_window,
 		fractal->img.img_ptr, 0, 0);
@@ -37,8 +41,8 @@ void	ft_handle_pixel(int x, int y, t_fractal *fractal)
 	int		i;
 	int		color;
 
-	z.real = ft_scale(x, -2, +2, WIDTH) * fractal->zoom + fractal->shift_x;
-	z.imaginary = ft_scale(y, +2, -2, HEIGHT) * fractal->zoom + fractal->shift_y;
+	z.real = rescale(x, -2, +2, WIDTH) * fractal->zoom + fractal->shift_x;
+	z.imaginary = rescale(y, +2, -2, HEIGHT) * fractal->zoom + fractal->shift_y;
 	ft_mandelbrot_julia(&z, &c, fractal);
 	i = 0;
 	while (i < fractal->check_i)
@@ -46,7 +50,7 @@ void	ft_handle_pixel(int x, int y, t_fractal *fractal)
 		z = sum_complex(square_complex(z), c);
 		if ((z.real * z.real) + (z.imaginary * z.imaginary) > fractal->escape_value)
 		{
-			color = ft_scale(i, BLACK, WHITE, fractal->check_i);
+			color = rescale(i, BLACK, WHITE, fractal->check_i);
 			ft_pixel_put(x, y, &fractal->img, color);
 			return ;
 		}
@@ -55,10 +59,7 @@ void	ft_handle_pixel(int x, int y, t_fractal *fractal)
 	ft_pixel_put(x, y, &fractal->img, AURORA_GREEN);
 }
 
-/**
- * Function defines the pixel in the pixel buffer
- *
- */
+//defines the pixel in the pixel buffer
 void	ft_pixel_put(int x, int y, t_img *img, int color)
 {
 	int	offset;
@@ -67,13 +68,11 @@ void	ft_pixel_put(int x, int y, t_img *img, int color)
 	*(unsigned int *)(img->pix_ptr + offset) = color;
 }
 
-/**
- * Function toggling between mandelbrot and julia fractal sets
- *
- */
+
+//Function toggling between mandelbrot and julia fractal sets
 void	ft_mandelbrot_julia(t_complex *z, t_complex *c, t_fractal *fractal)
 {
-	if (!ft_strncmp(fractal->name, "julia", 5))
+	if (ft_strncmp(fractal->name, "julia", 5) == 0)
 	{
 		c->real = fractal->julia_real;
 		c->imaginary = fractal->julia_imaginary;

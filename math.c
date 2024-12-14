@@ -24,11 +24,10 @@ t_complex	sum_complex(t_complex x, t_complex y)
 }
 
 
-//Function implementing the formula for squarying a complex number:
-// real = (real_number^2 - imaginary_number^2)
-// img = 2 * r * i
-// using the same notation as in my t_complex structure)
-
+// the result of squaring a complex number
+// has a real and imaginary part
+// x^2 - y^2 + 2xyi
+// i return the result in two parts
 t_complex	square_complex(t_complex z)
 {
 	t_complex	result;
@@ -36,4 +35,17 @@ t_complex	square_complex(t_complex z)
 	result.real = (z.real * z.real) - (z.imaginary * z.imaginary);
 	result.imaginary = 2 * z.real * z.imaginary;
 	return (result);
+}
+
+double	rescale(double nb, double new_min, double new_max,
+	double old_max)
+{
+	double	a;
+	double	b;
+	double	old_min;
+
+	old_min = 0.0;
+	a = new_max - new_min;
+	b = old_max - old_min;
+	return ((a) * (nb - old_min) / (b) + new_min);
 }

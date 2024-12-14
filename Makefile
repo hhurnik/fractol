@@ -6,7 +6,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
 # Source files
-SRCS = events.c init.c math.c fractol_main.c rendering.c scalling.c handle_strings.c
+SRCS = fractol_main.c events.c init.c math.c rendering.c handle_strings.c
 
 # Object files (corresponding to the source files)
 OBJS = $(SRCS:.c=.o)
