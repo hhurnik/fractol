@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   events.c                                           :+:      :+:    :+:   */
+/*   math.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 17:48:23 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/12 17:48:23 by marvin           ###   ########.fr       */
+/*   Created: 2024/12/14 16:11:29 by hhurnik           #+#    #+#             */
+/*   Updated: 2024/12/14 16:11:29 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
 
 // vector add x and y complex numbers
 t_complex	sum_complex(t_complex x, t_complex y)
@@ -22,7 +21,6 @@ t_complex	sum_complex(t_complex x, t_complex y)
 	result.imaginary = x.imaginary + y.imaginary;
 	return (result);
 }
-
 
 // the result of squaring a complex number
 // has a real and imaginary part
@@ -37,8 +35,7 @@ t_complex	square_complex(t_complex z)
 	return (result);
 }
 
-double	rescale(double nb, double new_min, double new_max,
-	double old_max)
+double	rescale(double nb, double new_min, double new_max, double old_max)
 {
 	double	a;
 	double	b;
@@ -48,4 +45,14 @@ double	rescale(double nb, double new_min, double new_max,
 	a = new_max - new_min;
 	b = old_max - old_min;
 	return ((a) * (nb - old_min) / (b) + new_min);
+}
+
+void	error_message(char *s)
+{
+	if (*s != '\0')
+	{
+		ft_putstr_fd("Enter ./fractol mandelbrot or ./fractol julia  \
+            <real_part> <imaginary_part>\n", 2);
+		exit(EXIT_FAILURE);
+	}
 }
