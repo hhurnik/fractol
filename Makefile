@@ -12,18 +12,23 @@ SRCS = fractol_main.c events.c init.c math.c rendering.c handle_strings.c
 OBJS = $(SRCS:.c=.o)
 
 # Include and library paths
-MINILIBX_PATH = ./minilibx-linux
+MINILIBX_PATH = ./minilibx_linux
+MINILIBX = $(MINILIBX_PATH)/libmlx.a # ADDED
 LIB_FLAGS = -L$(MINILIBX_PATH) -lmlx -lX11 -lXext -lm
 
 # Compilation rules
-all: $(NAME)
+all: $(MINILIBX) $(NAME)
+
+# Rule to compile the MiniLibX library
+$(MINILIBX):                                
+	@make -C $(MINILIBX_PATH)               
 
 # Rule for compiling .c files into .o files
 %.o: %.c
 	$(CC) $(CFLAGS) -I$(MINILIBX_PATH) -c $< -o $@
 
 # Linking object files into the final executable
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(MINILIBX)
 	$(CC) $(CFLAGS) $(OBJS) $(LIB_FLAGS) -o $(NAME)
 
 # Clean up object files and other intermediate files
